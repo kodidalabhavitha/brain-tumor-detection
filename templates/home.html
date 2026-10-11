@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Brain Tumor</title>
+    <meta charset="utf-8" />
+    <!--  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <!--  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+    <link href="/static/css/brainstyle.css" rel="stylesheet" />
+
+    <style>
+      body {
+        width: 99%;
+        position-x: fixed;
+      }
+      .prediction_info {
+        padding: 5px;
+        color: white;
+        margin-left: 30px;
+      }
+      .prediction_info p,
+      ul {
+        text-align: left;
+        padding: 10px;
+        font-size: 17px;
+        word-spacing: 2px;
+        letter-spacing: 2px;
+        line-height: 2;
+      }
+      .color {
+        background-color: green;
+      }
+
+      .center {
+        display: block;
+        margin-left: 68%;
+      }
+
+      .result {
+        display: block;
+        margin-left: 40%;
+        width: 120%;
+
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 class="tuber head bg-dark">BRAIN TUMOR DETECTION</h1>
+    </div>
+
+    <div class="tuber menu">
+      <a href="/home"
+        ><button type="button" onclick="home()" id="b1" class="btn color">
+          Home
+        </button></a
+      >
+      <a href="#"
+        ><button
+          type="button"
+          onclick="cnn()"
+          id="b2"
+          class="btn bg-secondary color"
+        >
+          Graphs
+        </button></a
+      >
+      <!-- <a  href="#"><button type="button" onclick="densenet()" id="b3" class="btn bg-secondary color">DenseNet201</button></a>
+    <a  href="#"><button type="button" onclick="resnet_function()" id="b4" class="btn bg-secondary color">ResNet152V2</button></a> -->
+      <a href="#">
+        <button
+          type="button"
+          onclick="password()"
+          id="b5"
+          class="btn bg-secondary color"
+        >
+          Change Password
+        </button></a
+      >
+      <a href="/logout">
+        <button type="button" id="logout" class="btn">Logout</button></a
+      >
+    </div>
+
+    <br /><br />
+    <br />
+    <center>
+      <div class="content">
+        <!--     HOME      -->
+
+        <div id="home">
+          <form
+            class="form-horizontal"
+            action="/submit"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label class="control-label col-sm-6" for="audio"
+                    ><h4>Upload File...</h4></label
+                  ><br />
+                  <div class="col-lg-4">
+                    <input
+                      type="file"
+                      class="form-control"
+                      required
+                      placeholder="upload Image.. "
+                      name="image"
+                      id="audio"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-8">
+                    <button
+                      style="width: 100px; height: 40px"
+                      type="submit"
+                      class="btn-success predict"
+                    >
+                      Predict
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          {% if result %}
+          <div class="row prediction_info">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+              <img
+                src="{{ img_path }}"
+                width="61%"
+                style="height: 300px"
+                class="center"
+              /><br />
+              <h4 style="color: red; margin-left: 89%">Prediction</h4>
+              <span class="result"> Class Name: {{ prediction }} </span><br />
+              <span class="result"> Tumor Name: {{ label }} </span><br />
+              <span class="result"> Result Probability: {{ probs }} </span
+              ><br />
+              <span class="result">
+                <u>Symptoms</u>: <br />{{ smtms }} <br />{{ smtms1 }} <br />{{
+                smtms2 }}
+              </span>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <!--   CNN   -->
+        <div id="cnn">
+          <h2 class="second-h2" style="color: red">
+            Result Analysis for CNN Model
+          </h2>
+          <br />
+          <h5 class="second-h2">Accuracy and Loss plot Graph</h5>
+          <br />
+          <img
+            class="graphs"
+            src="/static/Graphs/CNN/ac.png"
+            alt=""
+          /><br /><br />
+          <h5 class="second-h2">classification Report Graph</h5>
+          <br />
+          <img
+            class="graphs matrix"
+            src="/static/Graphs/CNN/cr.PNG"
+            alt=""
+          /><br /><br />
+          <h6 class="second-h2">Confusion Matrix</h6>
+          <br />
+          <img
+            class="graphs matrix"
+            src="/static/Graphs/CNN/cm.png"
+            alt=""
+          /><br /><br />
+        </div>
+
+        <!--    Password page   -->
+
+        <div id="password_page">
+          <div class="card card-outline-secondary">
+            <div class="card-header">
+              <h2 class="mb-3">
+                <b style="margin-bottom: -10px">Change Password</b>
+              </h2>
+            </div>
+            <h5 class="correct_pass">{{msg1}}</h5>
+            <h5 class="wrong_pass">{{msg2}}</h5>
+            <h5 class="wrong_pass">{{msg3}}</h5>
+            <div class="card-body">
+              <form
+                action="/password"
+                method="post"
+                class="form"
+                role="form"
+                autocomplete="off"
+              >
+                <div class="form-group">
+                  <label for="inputPasswordOld">Current Password:</label>
+                  <input
+                    type="password"
+                    name="current"
+                    class="form-control"
+                    id="inputPasswordOld"
+                    required=""
+                    style="margin-bottom: -20px"
+                  />
+                </div>
+                <br />
+                <div class="form-group">
+                  <label for="inputPasswordNew">New Password:</label>
+                  <input
+                    type="password"
+                    name="new"
+                    class="form-control"
+                    id="inputPasswordNew"
+                    required=""
+                  />
+                  <span class="form-text small text-muted">
+                    The password must be 8-20 characters, and must
+                    <em>not</em> contain spaces.
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="inputPasswordNewVerify">Re-enter:</label>
+                  <input
+                    type="password"
+                    name="verify"
+                    class="form-control"
+                    id="inputPasswordNewVerify"
+                    required=""
+                  />
+                  <span class="form-text small text-muted">
+                    To confirm, type the new password again.
+                  </span>
+                </div>
+                <br />
+
+                <div class="form-group" style="margin-top: -20px; width: 60px">
+                  <button type="submit" class="btn-success btn-sm float-right">
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!--       Password page closed   -->
+      </div>
+      <!--  /Content-->
+    </center>
+
+    <script></script>
+    <script src="/static/js/script.js"></script>
+  </body>
+</html>

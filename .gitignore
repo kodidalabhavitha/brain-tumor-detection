@@ -1,1 +1,52 @@
+# macOS
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Secrets
+.env
+.env.*
+
+# Trained models
+*.h5
+*.keras
+
+# Training datasets
+input/
+Training/
+Testing/
+datasets/
+
+# User information and uploaded scans
+user.xlsx
+user_input/
+uploads/
+static/uploads/
+
+# Archives
+*.rar
+*.zip.DS_Store
+
+# Large model and dataset
+*.h5
+*.keras
+input/
+Training/
+Testing/
+
+# User records and uploaded images
+user.xlsx
+user_input/
+static/user_tested/
+
+# System and notebook files
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+.env
+.env.*
